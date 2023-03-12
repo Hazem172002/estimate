@@ -10,6 +10,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Platform {
-  id String @id @default(uuid())
+model Platforms {
+  id                   String                 @id @default(uuid())
+  name                 String
+  subtitle             String
+  image                String
+  hourPrice            Float
+  hours                Float
+  // price     Float  @default(dbgenerated("GENERATED ALWAYS AS (hours*hourPrice) STORED"))
+  PlatformsFoundations PlatformsFoundations[]
+}
+
+model Categories {
+  id          String        @id @default(uuid())
+  name        String
+  subtitle    String
+  Foundations Foundations[]
+}
+
+model Foundations {
+  id                   String                 @id @default(uuid())
+  name                 String
+  subtitle             String
+  Category             Categories             @relation(fields: [categoryId], references: [id])
+  categoryId           String
+  PlatformsFoundations PlatformsFoundations[]
+}
+
+model PlatformsFoundations {
+  platformId   String
+  foundationId String
+  Foundation   Foundations @relation(fields: [foundationId], references: [id])
+  Platform     Platforms   @relation(fields: [platformId], references: [id])
+
+  @@id([platformId, foundationId])
+}
+
+model Functionalities {
+  id                          String                        @id @default(uuid())
+  name                        String
+  subtitle                    String
+  FunctionalitiesRequirements FunctionalitiesRequirements[]
+}
+
+model Requirements {
+  id                          String                        @id @default(uuid())
+  name                        String
+  subtitle                    String
+  FunctionalitiesRequirements FunctionalitiesRequirements[]
+}
+
+model FunctionalitiesRequirements {
+  functionalityId String
+  requirementId   String
+  Functionality   Requirements    @relation(fields: [functionalityId], references: [id])
+  Requirement     Functionalities @relation(fields: [requirementId], references: [id])
+
+  @@id([functionalityId, requirementId])
 }
