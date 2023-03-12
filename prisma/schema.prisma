@@ -11,14 +11,15 @@ datasource db {
 }
 
 model Platforms {
-  id                   String                 @id @default(uuid())
-  name                 String
-  subtitle             String
-  image                String
-  hourPrice            Float
-  hours                Float
+  id                       String                     @id @default(uuid())
+  name                     String
+  subtitle                 String
+  image                    String
+  hourPrice                Float
+  hours                    Float
   // price     Float  @default(dbgenerated("GENERATED ALWAYS AS (hours*hourPrice) STORED"))
-  PlatformsFoundations PlatformsFoundations[]
+  PlatformsFoundations     PlatformsFoundations[]
+  PlatformsFunctionalities PlatformsFunctionalities[]
 }
 
 model Categories {
@@ -42,8 +43,19 @@ model PlatformsFoundations {
   foundationId String
   Foundation   Foundations @relation(fields: [foundationId], references: [id])
   Platform     Platforms   @relation(fields: [platformId], references: [id])
+  hours        Float
 
   @@id([platformId, foundationId])
+}
+
+model PlatformsFunctionalities {
+  platformId      String
+  functionalityId String
+  Functionality   Functionalities @relation(fields: [functionalityId], references: [id])
+  Platform        Platforms       @relation(fields: [platformId], references: [id])
+  hours           Float
+
+  @@id([platformId, functionalityId])
 }
 
 model Functionalities {
@@ -51,6 +63,7 @@ model Functionalities {
   name                        String
   subtitle                    String
   FunctionalitiesRequirements FunctionalitiesRequirements[]
+  PlatformsFunctionalities    PlatformsFunctionalities[]
 }
 
 model Requirements {
