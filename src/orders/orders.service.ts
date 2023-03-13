@@ -86,4 +86,50 @@ export class OrdersService {
       }
     }
   }
+  async getAllOrders(res, body) {
+    const { orderId } = body;
+    const orders = await this.prisma.orders.findMany({
+      where: {
+        id: orderId,
+      },
+      select: {
+        PlatformOrders: {
+          select: {
+            Platform: {
+              select: {
+                id: true,
+                name: true,
+                subtitle: true,
+                hourPrice: true,
+              },
+            },
+          },
+        },
+        FoundationOrders: {
+          select: {
+            Foundations: {
+              select: {
+                id: true,
+                name: true,
+                subtitle: true,
+                categoryId: true,
+              },
+            },
+          },
+        },
+        FunctionalityOrders: {
+          select: {
+            Functionality: {
+              select: {
+                id: true,
+                name: true,
+                subtitle: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return this.responseService.success(res, 'foundations', orders);
+  }
 }
