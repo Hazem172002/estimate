@@ -113,6 +113,7 @@ export class OrdersService {
         ids.splice(idIndex, 1);
       }
     });
+
     const foundationsIds = [...features.map((f) => f.id)];
 
     const foundations = await this.prisma.foundations.findMany({

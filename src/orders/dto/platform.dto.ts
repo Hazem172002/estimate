@@ -4,8 +4,3 @@ export class Platform {
   @IsNotEmpty()
   platformId: string[];
 }
-
-export class Foundations {
-  @IsNotEmpty()
-  OrderId: string[];
-}
