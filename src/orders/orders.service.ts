@@ -86,4 +86,55 @@ export class OrdersService {
       }
     }
   }
+  async addOrderFunctioonality(res, body) {
+    let { orderId, features } = body;
+    let hours = 0;
+    let cost = 0;
+    const foundationIds = [];
+    const foundationOrders = [];
+    const orders = await this.prisma.orders.findFirst({
+      where: {
+        id: orderId,
+      },
+    });
+    if (!orderId) {
+      return this.responseService.notFound(res, 'order id is not in my db');
+    }
+    const foundation = await this.prisma.foundations.findMany({
+      select: {
+        id: true,
+      },
+    });
+    foundation.map((e) => {
+      foundationIds.push(e.id);
+    });
+    features.map((e, index) => {
+      if (!foundationIds.includes(e.id)) {
+        features.splice(index, 1);
+      } else {
+        hours += e.hours;
+        cost += e.price;
+        foundationOrders.push({ foundationId: e.id });
+      }
+    });
+    if (!foundationOrders) {
+      return this.responseService.notFound(res, 'all ids is not in db');
+    }
+
+    await this.prisma.orders.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        hours: { increment: hours },
+        cost: { increment: cost },
+        FoundationOrders: {
+          createMany: {
+            data: foundationOrders,
+          },
+        },
+      },
+    });
+    return this.responseService.success(res, 'foundations added successfully');
+  }
 }

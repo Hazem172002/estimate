@@ -17,7 +17,7 @@ model Platforms {
   image                    String
   hourPrice                Float
   hours                    Float
-  // price     Float  @default(dbgenerated("GENERATED ALWAYS AS (hours*hourPrice) STORED"))
+  // price                    Float                      @default(dbgenerated("GENERATED ALWAYS AS (hours*hourPrice) STORED"))
   PlatformsFoundations     PlatformsFoundations[]
   PlatformsFunctionalities PlatformsFunctionalities[]
   PlatformOrders           PlatformOrders[]
