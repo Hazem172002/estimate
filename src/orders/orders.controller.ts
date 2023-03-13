@@ -6,6 +6,7 @@ import {
   Res,
   ValidationPipe,
 } from '@nestjs/common';
+import { Functionalities } from './dto/functionalities.dto';
 import { Platform } from './dto/platform.dto';
 import { OrdersService } from './orders.service';
 
@@ -18,5 +19,13 @@ export class OrdersController {
     @Body(new ValidationPipe({ transform: true })) body: Platform,
   ) {
     return this.orderService.addOrderPlatform(res, body);
+  }
+
+  @Post('addFunctionalities')
+  async addOrderFunctionalities(
+    @Res() res,
+    @Body(new ValidationPipe({ transform: true })) body: Functionalities,
+  ) {
+    return this.orderService.addOrderFunctionalities(res, body);
   }
 }

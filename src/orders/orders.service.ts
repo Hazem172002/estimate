@@ -86,4 +86,78 @@ export class OrdersService {
       }
     }
   }
+
+  async addOrderFunctionalities(res, body) {
+    let { orderId, functionalitiesBody } = body;
+    const functionalitiesOrders = [];
+    let hours = 0;
+    let cost = 0;
+    const order = await this.prisma.orders.findFirst({
+      include: {
+        FunctionalityOrders: true,
+      },
+      where: {
+        id: orderId,
+      },
+    });
+
+    const ids = functionalitiesBody.map((f) => f.id);
+    order.FunctionalityOrders.forEach((fo) => {
+      if (ids.includes(fo.funcationalityId)) {
+        const index = functionalitiesBody.findIndex(
+          (x) => x.id === fo.funcationalityId,
+        );
+        functionalitiesBody.splice(index, 1);
+      }
+    });
+
+    const functionalitiesIds = [...functionalitiesBody.map((f) => f.id)];
+
+    if (!order) {
+      return this.responseService.notFound(res, 'order id is not in my db');
+    }
+    const functionalities = await this.prisma.functionalities.findMany({
+      select: {
+        id: true,
+      },
+      where: {
+        id: {
+          in: functionalitiesIds,
+        },
+      },
+    });
+    if (functionalitiesIds.length !== functionalities.length) {
+      return this.responseService.notFound(
+        res,
+        'functionality not found in db',
+      );
+    }
+
+    functionalitiesBody.forEach((f) => {
+      hours += f.hours;
+      cost += f.price;
+      functionalitiesOrders.push({ funcationalityId: f.id });
+    });
+
+    const newOrder = await this.prisma.orders.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        hours: { increment: hours },
+        cost: { increment: cost },
+        FunctionalityOrders: {
+          createMany: {
+            data: functionalitiesOrders,
+          },
+        },
+      },
+    });
+
+    return this.responseService.success(
+      res,
+      'functionalities added successfully',
+      newOrder,
+    );
+  }
 }
