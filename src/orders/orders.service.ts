@@ -90,36 +90,51 @@ export class OrdersService {
     let { orderId, features } = body;
     let hours = 0;
     let cost = 0;
-    const foundationIds = [];
     const foundationOrders = [];
     const orders = await this.prisma.orders.findFirst({
       where: {
         id: orderId,
       },
+      select: {
+        FoundationOrders: true,
+      },
     });
     if (!orders) {
       return this.responseService.notFound(res, 'order id is not in my db');
     }
-    const foundation = await this.prisma.foundations.findMany({
+
+    const ids = features.map((f) => f.id);
+
+    orders.FoundationOrders.forEach((fo) => {
+      if (ids.includes(fo.foundationId)) {
+        let idIndex = ids.indexOf(fo.foundationId);
+        let index = features.findIndex((f) => f.id === fo.foundationId);
+        features.splice(index, 1);
+        ids.splice(idIndex, 1);
+      }
+    });
+    const foundationsIds = [...features.map((f) => f.id)];
+
+    const foundations = await this.prisma.foundations.findMany({
       select: {
         id: true,
       },
+      where: {
+        id: {
+          in: foundationsIds,
+        },
+      },
     });
-    foundation.map((e) => {
-      foundationIds.push(e.id);
-    });
-    features.map((e, index) => {
-      if (!foundationIds.includes(e.id)) {
-        features.splice(index, 1);
-      } else {
-        hours += e.hours;
-        cost += e.price;
-        foundationOrders.push({ foundationId: e.id });
-      }
-    });
-    if (!foundationOrders) {
-      return this.responseService.notFound(res, 'all ids is not in db');
+
+    if (foundations.length !== foundationsIds.length || !foundations.length) {
+      return this.responseService.notFound(res, 'invalid foundation');
     }
+
+    features.forEach((f) => {
+      hours += f.hours;
+      cost += f.price;
+      foundationOrders.push({ foundationId: f.id });
+    });
 
     await this.prisma.orders.update({
       where: {
