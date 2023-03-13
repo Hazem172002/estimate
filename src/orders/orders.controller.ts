@@ -20,11 +20,11 @@ export class OrdersController {
   ) {
     return this.orderService.addOrderPlatform(res, body);
   }
-  @Post('functionality')
-  async addOrderFunctioonality(
+  @Post('foundations')
+  async addOrderFoundations(
     @Res() res,
     @Body(new ValidationPipe({ transform: true })) body: Foundations,
   ) {
-    return this.orderService.addOrderFunctioonality(res, body);
+    return this.orderService.addOrderFoundations(res, body);
   }
 }

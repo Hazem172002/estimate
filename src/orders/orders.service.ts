@@ -86,7 +86,7 @@ export class OrdersService {
       }
     }
   }
-  async addOrderFunctioonality(res, body) {
+  async addOrderFoundations(res, body) {
     let { orderId, features } = body;
     let hours = 0;
     let cost = 0;
@@ -97,7 +97,7 @@ export class OrdersService {
         id: orderId,
       },
     });
-    if (!orderId) {
+    if (!orders) {
       return this.responseService.notFound(res, 'order id is not in my db');
     }
     const foundation = await this.prisma.foundations.findMany({
