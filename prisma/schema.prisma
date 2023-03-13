@@ -79,8 +79,8 @@ model Requirements {
 model FunctionalitiesRequirements {
   functionalityId String
   requirementId   String
-  Functionality   Requirements    @relation(fields: [functionalityId], references: [id])
-  Requirement     Functionalities @relation(fields: [requirementId], references: [id])
+  Requirement     Requirements    @relation(fields: [functionalityId], references: [id])
+  Functionality   Functionalities @relation(fields: [requirementId], references: [id])
 
   @@id([functionalityId, requirementId])
 }
