@@ -20,6 +20,7 @@ model Platforms {
   // price     Float  @default(dbgenerated("GENERATED ALWAYS AS (hours*hourPrice) STORED"))
   PlatformsFoundations     PlatformsFoundations[]
   PlatformsFunctionalities PlatformsFunctionalities[]
+  PlatformOrders           PlatformOrders[]
 }
 
 model Categories {
@@ -36,6 +37,7 @@ model Foundations {
   Category             Categories             @relation(fields: [categoryId], references: [id])
   categoryId           String
   PlatformsFoundations PlatformsFoundations[]
+  FoundationOrders     FoundationOrders[]
 }
 
 model PlatformsFoundations {
@@ -64,6 +66,7 @@ model Functionalities {
   subtitle                    String
   FunctionalitiesRequirements FunctionalitiesRequirements[]
   PlatformsFunctionalities    PlatformsFunctionalities[]
+  FunctionalityOrders         FunctionalityOrders[]
 }
 
 model Requirements {
@@ -80,4 +83,37 @@ model FunctionalitiesRequirements {
   Requirement     Functionalities @relation(fields: [requirementId], references: [id])
 
   @@id([functionalityId, requirementId])
+}
+
+model Orders {
+  id                  String                @id @default(uuid())
+  hours               Float
+  cost                Float
+  PlatformOrders      PlatformOrders[]
+  FoundationOrders    FoundationOrders[]
+  FunctionalityOrders FunctionalityOrders[]
+}
+
+model PlatformOrders {
+  id         String    @id @default(uuid())
+  platformId String
+  orderId    String
+  Platform   Platforms @relation(fields: [platformId], references: [id])
+  Orders     Orders    @relation(fields: [orderId], references: [id])
+}
+
+model FoundationOrders {
+  id           String      @id @default(uuid())
+  foundationId String
+  orderId      String
+  Orders       Orders      @relation(fields: [orderId], references: [id])
+  Foundations  Foundations @relation(fields: [foundationId], references: [id])
+}
+
+model FunctionalityOrders {
+  id               String          @id @default(uuid())
+  funcationalityId String
+  orderId          String
+  Orders           Orders          @relation(fields: [orderId], references: [id])
+  Functionality    Functionalities @relation(fields: [funcationalityId], references: [id])
 }
