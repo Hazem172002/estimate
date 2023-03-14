@@ -10,168 +10,6 @@
 			"name": "Orders",
 			"item": [
 				{
-					"name": "Add Functionalities",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"functionalitiesBody\": [\r\n        \r\n        {\r\n            \"id\": \"3\",\r\n            \"name\": \"Func-3\",\r\n            \"subtitle\": \"Func-3\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 15,\r\n            \"price\": 475\r\n        }\r\n     ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Orders}}addFunctionalities",
-							"host": [
-								"{{Orders}}addFunctionalities"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Add Functionalities",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"functionalitiesBody\": [\r\n        \r\n        {\r\n            \"id\": \"3\",\r\n            \"name\": \"Func-3\",\r\n            \"subtitle\": \"Func-3\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 15,\r\n            \"price\": 475\r\n        }\r\n     ]\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{Orders}}addFunctionalities",
-									"host": [
-										"{{Orders}}addFunctionalities"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "143"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"8f-KfCz5jh/Zq9BkBdOESdEOtllILA\""
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 14 Mar 2023 11:39:52 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"type\": \"Success\",\n    \"message\": \"functionalities added successfully\",\n    \"data\": {\n        \"id\": \"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\n        \"hours\": 585,\n        \"cost\": 17175\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Add Foundations",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"foundationsBody\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"Found-1\",\r\n                    \"subtitle\": \"Found-1\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"2\",\r\n                    \"name\": \"Found-2\",\r\n                    \"subtitle\": \"Found-2\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"5\",\r\n                    \"name\": \"Found-5\",\r\n                    \"subtitle\": \"Found-5\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"6\",\r\n                    \"name\": \"Found-6\",\r\n                    \"subtitle\": \"Found-6\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                }\r\n     ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Orders}}addFoundations",
-							"host": [
-								"{{Orders}}addFoundations"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Add Foundations Not Found",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"foundationsBody\": []\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{Orders}}addFoundations",
-									"host": [
-										"{{Orders}}addFoundations"
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "110"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"6e-PE+GY3mt2k91Nx0d/de1BrYmnAg\""
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 14 Mar 2023 12:02:52 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"type\": \"NotFound\",\n    \"message\": \"Bad Request, all Foundations may be in this order or no foundations were added\"\n}"
-						}
-					]
-				},
-				{
 					"name": "Add Platforms",
 					"request": {
 						"method": "POST",
@@ -249,6 +87,311 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"type\": \"Success\",\n    \"message\": \"Order created with platforms : 1, 2\",\n    \"data\": {\n        \"orderId\": \"a8e5337a-f36f-4c16-98f4-ffd928adca14\",\n        \"order\": {\n            \"id\": \"a8e5337a-f36f-4c16-98f4-ffd928adca14\",\n            \"hours\": 500,\n            \"cost\": 14500\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Foundations",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\":\"7418efce-555b-4f0d-9595-813941448251\",\r\n     \"foundationsBody\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"Found-1\",\r\n                    \"subtitle\": \"Found-1\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"2\",\r\n                    \"name\": \"Found-2\",\r\n                    \"subtitle\": \"Found-2\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"5\",\r\n                    \"name\": \"Found-5\",\r\n                    \"subtitle\": \"Found-5\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"6\",\r\n                    \"name\": \"Found-6\",\r\n                    \"subtitle\": \"Found-6\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                }\r\n     ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Orders}}addFoundations",
+							"host": [
+								"{{Orders}}addFoundations"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Foundations Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"foundationsBody\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Orders}}addFoundations",
+									"host": [
+										"{{Orders}}addFoundations"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "110"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6e-PE+GY3mt2k91Nx0d/de1BrYmnAg\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 14 Mar 2023 12:02:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"NotFound\",\n    \"message\": \"Bad Request, all Foundations may be in this order or no foundations were added\"\n}"
+						},
+						{
+							"name": "Add Foundations",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"orderId\":\"7418efce-555b-4f0d-9595-813941448251\",\r\n     \"foundationsBody\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"Found-1\",\r\n                    \"subtitle\": \"Found-1\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"2\",\r\n                    \"name\": \"Found-2\",\r\n                    \"subtitle\": \"Found-2\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"5\",\r\n                    \"name\": \"Found-5\",\r\n                    \"subtitle\": \"Found-5\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"6\",\r\n                    \"name\": \"Found-6\",\r\n                    \"subtitle\": \"Found-6\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                }\r\n     ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Orders}}addFoundations",
+									"host": [
+										"{{Orders}}addFoundations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "139"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8b-AdSIkjk+YDmy+thp6ER1mWdgxwk\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 14 Mar 2023 14:26:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"Success\",\n    \"message\": \"foundations added successfully\",\n    \"data\": {\n        \"id\": \"7418efce-555b-4f0d-9595-813941448251\",\n        \"hours\": 600,\n        \"cost\": 17600\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Functionalities",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\":\"7418efce-555b-4f0d-9595-813941448251\",\r\n     \"functionalitiesBody\": [\r\n        {\r\n            \"id\": \"2\",\r\n            \"name\": \"Func-2\",\r\n            \"subtitle\": \"Func-2\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 40,\r\n            \"price\": 1250\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"name\": \"Func-3\",\r\n            \"subtitle\": \"Func-3\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 15,\r\n            \"price\": 475\r\n        }\r\n     ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Orders}}addFunctionalities",
+							"host": [
+								"{{Orders}}addFunctionalities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Functionalities",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"functionalitiesBody\": [\r\n        \r\n        {\r\n            \"id\": \"3\",\r\n            \"name\": \"Func-3\",\r\n            \"subtitle\": \"Func-3\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 15,\r\n            \"price\": 475\r\n        }\r\n     ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Orders}}addFunctionalities",
+									"host": [
+										"{{Orders}}addFunctionalities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "143"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8f-KfCz5jh/Zq9BkBdOESdEOtllILA\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 14 Mar 2023 11:39:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"Success\",\n    \"message\": \"functionalities added successfully\",\n    \"data\": {\n        \"id\": \"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\n        \"hours\": 585,\n        \"cost\": 17175\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Submit Order And Get Final Detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "orderId",
+									"value": "7418efce-555b-4f0d-9595-813941448251",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Orders}}orderDetails",
+							"host": [
+								"{{Orders}}orderDetails"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Final Details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "orderId",
+											"value": "7418efce-555b-4f0d-9595-813941448251",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{Orders}}orderDetails",
+									"host": [
+										"{{Orders}}orderDetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "156"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9c-zTPKdyRnMvEkfAW95WPixWXa/BM\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 14 Mar 2023 14:35:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"IOS\": {\n        \"hours\": 295,\n        \"price\": 10325\n    },\n    \"Android\": {\n        \"hours\": 360,\n        \"price\": 9000\n    },\n    \"orderId\": \"7418efce-555b-4f0d-9595-813941448251\",\n    \"finalCost\": 19325,\n    \"finalHours\": 655\n}"
 						}
 					]
 				}

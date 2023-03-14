@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { OrderFunctionalities } from './dto/order-functionalities.dto';
 import { OrderFoundations } from './dto/order-foundations.dto';
 import { OrderPlatform } from './dto/order-platform.dto';
@@ -23,5 +23,10 @@ export class OrdersController {
     @Body() body: OrderFunctionalities,
   ) {
     return this.orderService.addOrderFunctionalities(res, body);
+  }
+
+  @Get('orderDetails')
+  async getOrderDetails(@Body('orderId') orderId: string) {
+    return this.orderService.getOrderFinalDetails(orderId);
   }
 }

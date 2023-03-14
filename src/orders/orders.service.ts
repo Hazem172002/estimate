@@ -192,15 +192,11 @@ export class OrdersService {
       );
     }
 
-    console.log({ foundationsBody });
-
     foundationsBody.forEach((f) => {
       hours += f.hours;
       cost += f.price;
       foundationOrders.push({ foundationId: f.id });
     });
-
-    console.log({ foundationOrders });
 
     const newOrder = await this.prisma.orders.update({
       where: {
@@ -221,5 +217,92 @@ export class OrdersService {
       'foundations added successfully',
       newOrder,
     );
+  }
+
+  async getOrderFinalDetails(orderId: string) {
+    // In this function we should return all of this:
+    /*
+    {
+      orderId,
+      finalCost,
+      finalHours,
+      # For Platforms: we should include it hours
+      # For Example:
+      android: {hours, price},
+      ios : {hours, price}
+    }
+    */
+    const order = await this.prisma.orders.findFirst({
+      where: {
+        id: orderId,
+      },
+      include: {
+        PlatformOrders: {
+          include: {
+            Platform: {
+              include: {
+                PlatformsFoundations: {
+                  select: {
+                    hours: true,
+                    foundationId: true,
+                  },
+                },
+                PlatformsFunctionalities: {
+                  select: {
+                    hours: true,
+                    functionalityId: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        FoundationOrders: {
+          select: { foundationId: true },
+        },
+        FunctionalityOrders: {
+          select: { funcationalityId: true },
+        },
+      },
+    });
+
+    const foundationsInOrder = order.FoundationOrders.map(
+      (f) => f.foundationId,
+    );
+    const functionalitiesInOrder = order.FunctionalityOrders.map(
+      (f) => f.funcationalityId,
+    );
+
+    const orderPlatforms = order.PlatformOrders.map((po) => po.Platform).map(
+      (p) => {
+        p.PlatformsFoundations = p.PlatformsFoundations.filter((f) =>
+          foundationsInOrder.includes(f.foundationId),
+        );
+        p.PlatformsFunctionalities = p.PlatformsFunctionalities.filter((f) =>
+          functionalitiesInOrder.includes(f.functionalityId),
+        );
+        return p;
+      },
+    );
+
+    const platformsDetails = {};
+    orderPlatforms.forEach((p) => {
+      let price = p.hourPrice * p.hours;
+      let hours = p.hours;
+      const foundationsHours = p.PlatformsFoundations.map(
+        (f) => f.hours,
+      ).reduce((acc, curr) => acc + curr);
+      const functionalitiesHours = p.PlatformsFunctionalities.map(
+        (f) => f.hours,
+      ).reduce((acc, curr) => acc + curr);
+      hours += foundationsHours + functionalitiesHours;
+      price += (foundationsHours + functionalitiesHours) * p.hourPrice;
+      platformsDetails[p.name] = { hours, price };
+    });
+
+    platformsDetails['orderId'] = orderId;
+    platformsDetails['finalCost'] = order.cost;
+    platformsDetails['finalHours'] = order.hours;
+    return platformsDetails;
   }
 }
