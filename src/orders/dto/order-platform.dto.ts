@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class Platform {
+export class OrderPlatform {
   @IsNotEmpty()
-  platformId: string[];
+  platforms: string[];
 }

@@ -33,6 +33,8 @@ export class FoundationsService {
 
     const categoriesWithFoundations = [];
 
+    console.log({ foundations });
+
     foundations.map((e) => {
       const category = { ...e, foundations: [] };
       e.Foundations.map((j) => {

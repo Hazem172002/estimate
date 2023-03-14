@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ResponseService } from 'src/helper/service/response.service';
 import { PrismaService } from 'src/prisma.service';
+import { OrderFoundations } from './dto/order-foundations.dto';
+import { OrderFunctionalities } from './dto/order-functionalities.dto';
+import { OrderPlatform } from './dto/order-platform.dto';
 
 @Injectable()
 export class OrdersService {
@@ -9,85 +12,55 @@ export class OrdersService {
     private responseService: ResponseService,
   ) {}
 
-  async addOrderPlatform(res, body) {
-    let { platformId } = body;
-    if (typeof platformId === 'string') {
-      const platform = await this.prisma.platforms.findFirst({
-        where: {
-          id: platformId,
-        },
-      });
+  async addOrderPlatform(res, orderPlatforms: OrderPlatform) {
+    const platformsIds = [...new Set(orderPlatforms.platforms)];
+
+    // Check if body not contains any platforms ids., if length === 0 , return bad request.
+    if (!platformsIds.length) {
+      return this.responseService.badRequest(
+        res,
+        'validation error',
+        'platforms property is empty, please choose some platforms ids.',
+      );
+    }
+
+    let platformCost = 0;
+    let platformHours = 0;
+    const selectedPlatforms = [];
+    const platformsInDb = await this.prisma.platforms.findMany();
+
+    platformsIds.forEach((id) => {
+      const platform = platformsInDb.find((p) => p.id === id);
       if (!platform) {
         return this.responseService.notFound(
           res,
-          'this platform is not in my db',
+          `Platform #${id} is not exist.`,
         );
       }
+      selectedPlatforms.push({ platformId: id });
+      platformCost += platform.hours * platform.hourPrice;
+      platformHours += platform.hours;
+    });
 
-      const addOrder = await this.prisma.orders.create({
-        data: {
-          cost: platform.hourPrice * platform.hours,
-          hours: platform.hours,
-          PlatformOrders: {
-            create: {
-              platformId: platformId,
-            },
+    const addOrder = await this.prisma.orders.create({
+      data: {
+        cost: platformCost,
+        hours: platformHours,
+        PlatformOrders: {
+          createMany: {
+            data: selectedPlatforms,
           },
         },
-      });
-      return this.responseService.success(
-        res,
-        'order platform added Successfully',
-        { orderId: addOrder.id },
-      );
-    } else {
-      platformId = [...new Set(platformId)];
-      let platformCost = 0;
-      let platformHours = 0;
-      const selectedPlatforms = [];
-      const platformsInDb = await this.prisma.platforms.findMany();
-      if (platformId.length) {
-        platformId.forEach((id) => {
-          const platform = platformsInDb.find((p) => p.id === id);
-          if (!platform) {
-            return this.responseService.badRequest(
-              res,
-              'validation error',
-              'platform is not here',
-            );
-          }
-          selectedPlatforms.push({ platformId: id });
-          platformCost += platform.hours * platform.hourPrice;
-          platformHours += platform.hours;
-        });
-
-        const addOrder = await this.prisma.orders.create({
-          data: {
-            cost: platformCost,
-            hours: platformHours,
-            PlatformOrders: {
-              createMany: {
-                data: selectedPlatforms,
-              },
-            },
-          },
-        });
-        return this.responseService.success(
-          res,
-          'order platform added Successfully',
-          { orderId: addOrder.id },
-        );
-      } else {
-        return this.responseService.badRequest(
-          res,
-          'validation error',
-          'platform is empty',
-        );
-      }
-    }
+      },
+    });
+    return this.responseService.success(
+      res,
+      `Order created with platforms : ${platformsIds.join(', ')}`,
+      { orderId: addOrder.id, order: addOrder },
+    );
   }
 
-  async addOrderFunctionalities(res, body) {
+  async addOrderFunctionalities(res, body: OrderFunctionalities) {
     let { orderId, functionalitiesBody } = body;
     const functionalitiesOrders = [];
     let hours = 0;
@@ -101,6 +74,13 @@ export class OrdersService {
       },
     });
 
+    if (!order) {
+      return this.responseService.notFound(
+        res,
+        `Order #${orderId} is not exist`,
+      );
+    }
+
     const ids = functionalitiesBody.map((f) => f.id);
     order.FunctionalityOrders.forEach((fo) => {
       if (ids.includes(fo.funcationalityId)) {
@@ -113,9 +93,6 @@ export class OrdersService {
 
     const functionalitiesIds = [...functionalitiesBody.map((f) => f.id)];
 
-    if (!order) {
-      return this.responseService.notFound(res, 'order id is not in my db');
-    }
     const functionalities = await this.prisma.functionalities.findMany({
       select: {
         id: true,
@@ -164,8 +141,8 @@ export class OrdersService {
     );
   }
 
-  async addOrderFoundations(res, body) {
-    let { orderId, features } = body;
+  async addOrderFoundations(res, body: OrderFoundations) {
+    let { orderId, foundationsBody } = body;
     let hours = 0;
     let cost = 0;
     const foundationOrders = [];
@@ -178,21 +155,24 @@ export class OrdersService {
       },
     });
     if (!orders) {
-      return this.responseService.notFound(res, 'order id is not in my db');
+      return this.responseService.notFound(
+        res,
+        `Order #${orderId} is not exist`,
+      );
     }
 
-    const ids = features.map((f) => f.id);
+    const ids = foundationsBody.map((f) => f.id);
 
     orders.FoundationOrders.forEach((fo) => {
       if (ids.includes(fo.foundationId)) {
         let idIndex = ids.indexOf(fo.foundationId);
-        let index = features.findIndex((f) => f.id === fo.foundationId);
-        features.splice(index, 1);
+        let index = foundationsBody.findIndex((f) => f.id === fo.foundationId);
+        foundationsBody.splice(index, 1);
         ids.splice(idIndex, 1);
       }
     });
 
-    const foundationsIds = [...features.map((f) => f.id)];
+    const foundationsIds = [...foundationsBody.map((f) => f.id)];
 
     const foundations = await this.prisma.foundations.findMany({
       select: {
@@ -212,13 +192,17 @@ export class OrdersService {
       );
     }
 
-    features.forEach((f) => {
+    console.log({ foundationsBody });
+
+    foundationsBody.forEach((f) => {
       hours += f.hours;
       cost += f.price;
       foundationOrders.push({ foundationId: f.id });
     });
 
-    await this.prisma.orders.update({
+    console.log({ foundationOrders });
+
+    const newOrder = await this.prisma.orders.update({
       where: {
         id: orderId,
       },
@@ -232,6 +216,10 @@ export class OrdersService {
         },
       },
     });
-    return this.responseService.success(res, 'foundations added successfully');
+    return this.responseService.success(
+      res,
+      'foundations added successfully',
+      newOrder,
+    );
   }
 }

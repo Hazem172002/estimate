@@ -1,0 +1,441 @@
+{
+	"info": {
+		"_postman_id": "718479fc-4fb4-40b7-b4b1-bcedbb6f3bbc",
+		"name": "Cost Estimate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15622340"
+	},
+	"item": [
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Add Functionalities",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"functionalitiesBody\": [\r\n        \r\n        {\r\n            \"id\": \"3\",\r\n            \"name\": \"Func-3\",\r\n            \"subtitle\": \"Func-3\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 15,\r\n            \"price\": 475\r\n        }\r\n     ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Orders}}addFunctionalities",
+							"host": [
+								"{{Orders}}addFunctionalities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Functionalities",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"functionalitiesBody\": [\r\n        \r\n        {\r\n            \"id\": \"3\",\r\n            \"name\": \"Func-3\",\r\n            \"subtitle\": \"Func-3\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 15,\r\n            \"price\": 475\r\n        }\r\n     ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Orders}}addFunctionalities",
+									"host": [
+										"{{Orders}}addFunctionalities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "143"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8f-KfCz5jh/Zq9BkBdOESdEOtllILA\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 14 Mar 2023 11:39:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"Success\",\n    \"message\": \"functionalities added successfully\",\n    \"data\": {\n        \"id\": \"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\n        \"hours\": 585,\n        \"cost\": 17175\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Foundations",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"foundationsBody\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"Found-1\",\r\n                    \"subtitle\": \"Found-1\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"2\",\r\n                    \"name\": \"Found-2\",\r\n                    \"subtitle\": \"Found-2\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"5\",\r\n                    \"name\": \"Found-5\",\r\n                    \"subtitle\": \"Found-5\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"6\",\r\n                    \"name\": \"Found-6\",\r\n                    \"subtitle\": \"Found-6\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                }\r\n     ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Orders}}addFoundations",
+							"host": [
+								"{{Orders}}addFoundations"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Foundations Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"orderId\":\"cc9accf8-68d0-48f5-8870-adbab33a58ad\",\r\n     \"foundationsBody\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Orders}}addFoundations",
+									"host": [
+										"{{Orders}}addFoundations"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "110"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6e-PE+GY3mt2k91Nx0d/de1BrYmnAg\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 14 Mar 2023 12:02:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"NotFound\",\n    \"message\": \"Bad Request, all Foundations may be in this order or no foundations were added\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Platforms",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"platforms\":[\"1\", \"2\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Orders}}AddPlatforms",
+							"host": [
+								"{{Orders}}AddPlatforms"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Platforms",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"platforms\":[\"1\", \"2\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{Orders}}AddPlatforms",
+									"host": [
+										"{{Orders}}AddPlatforms"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "203"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"cb-CYqt33F4JiXeefIlOMgjy1+0W5Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 14 Mar 2023 11:21:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"Success\",\n    \"message\": \"Order created with platforms : 1, 2\",\n    \"data\": {\n        \"orderId\": \"a8e5337a-f36f-4c16-98f4-ffd928adca14\",\n        \"order\": {\n            \"id\": \"a8e5337a-f36f-4c16-98f4-ffd928adca14\",\n            \"hours\": 500,\n            \"cost\": 14500\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get All Platforms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Platforms}}",
+					"host": [
+						"{{Platforms}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Platforms",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Platforms}}",
+							"host": [
+								"{{Platforms}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "319"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"13f-cfhwJOGyDrtB71WH3ZiogL+bP08\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 14 Mar 2023 10:23:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"Success\",\n    \"message\": \"platforms\",\n    \"data\": [\n        {\n            \"id\": \"1\",\n            \"name\": \"Android\",\n            \"subtitle\": \"Android\",\n            \"image\": \"Android\",\n            \"hourPrice\": 25,\n            \"hours\": 300\n        },\n        {\n            \"id\": \"2\",\n            \"name\": \"IOS\",\n            \"subtitle\": \"IOS\",\n            \"image\": \"IOS\",\n            \"hourPrice\": 35,\n            \"hours\": 200\n        },\n        {\n            \"id\": \"3\",\n            \"name\": \"DESKTOP\",\n            \"subtitle\": \"DESKTOP\",\n            \"image\": \"DESKTOP\",\n            \"hourPrice\": 15,\n            \"hours\": 100\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Foundations By Order ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "orderId",
+							"value": "cc9accf8-68d0-48f5-8870-adbab33a58ad",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Foundations}}",
+					"host": [
+						"{{Foundations}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Foundations",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "orderId",
+									"value": "cc9accf8-68d0-48f5-8870-adbab33a58ad",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Foundations}}",
+							"host": [
+								"{{Foundations}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1035"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"40b-5ithwHOZMw0ecy96Acd4qxc14+Y\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 14 Mar 2023 11:56:23 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"Success\",\n    \"message\": \"foundations\",\n    \"data\": [\n        {\n            \"id\": \"1\",\n            \"name\": \"Cat-1\",\n            \"subtitle\": \"Cat-1\",\n            \"foundations\": [\n                {\n                    \"id\": \"1\",\n                    \"name\": \"Found-1\",\n                    \"subtitle\": \"Found-1\",\n                    \"categoryId\": \"1\",\n                    \"hours\": 25,\n                    \"price\": 775\n                },\n                {\n                    \"id\": \"2\",\n                    \"name\": \"Found-2\",\n                    \"subtitle\": \"Found-2\",\n                    \"categoryId\": \"1\",\n                    \"hours\": 25,\n                    \"price\": 775\n                },\n                {\n                    \"id\": \"3\",\n                    \"name\": \"Found-3\",\n                    \"subtitle\": \"Found-3\",\n                    \"categoryId\": \"1\",\n                    \"hours\": 25,\n                    \"price\": 775\n                }\n            ]\n        },\n        {\n            \"id\": \"2\",\n            \"name\": \"Cat-2\",\n            \"subtitle\": \"Cat-2\",\n            \"foundations\": [\n                {\n                    \"id\": \"4\",\n                    \"name\": \"Found-4\",\n                    \"subtitle\": \"Found-4\",\n                    \"categoryId\": \"2\",\n                    \"hours\": 25,\n                    \"price\": 775\n                },\n                {\n                    \"id\": \"5\",\n                    \"name\": \"Found-5\",\n                    \"subtitle\": \"Found-5\",\n                    \"categoryId\": \"2\",\n                    \"hours\": 25,\n                    \"price\": 775\n                },\n                {\n                    \"id\": \"6\",\n                    \"name\": \"Found-6\",\n                    \"subtitle\": \"Found-6\",\n                    \"categoryId\": \"2\",\n                    \"hours\": 25,\n                    \"price\": 775\n                }\n            ]\n        },\n        {\n            \"id\": \"3\",\n            \"name\": \"Cat-3\",\n            \"subtitle\": \"Cat-3\",\n            \"foundations\": [\n                {\n                    \"id\": \"7\",\n                    \"name\": \"Found-7\",\n                    \"subtitle\": \"Found-7\",\n                    \"categoryId\": \"3\",\n                    \"hours\": 25,\n                    \"price\": 775\n                },\n                {\n                    \"id\": \"8\",\n                    \"name\": \"Found-8\",\n                    \"subtitle\": \"Found-8\",\n                    \"categoryId\": \"3\",\n                    \"hours\": 25,\n                    \"price\": 775\n                },\n                {\n                    \"id\": \"9\",\n                    \"name\": \"Found-9\",\n                    \"subtitle\": \"Found-9\",\n                    \"categoryId\": \"3\",\n                    \"hours\": 25,\n                    \"price\": 775\n                }\n            ]\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Functionalities By Order Id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "orderId",
+							"value": "cc9accf8-68d0-48f5-8870-adbab33a58ad",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Functionalities}}",
+					"host": [
+						"{{Functionalities}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
