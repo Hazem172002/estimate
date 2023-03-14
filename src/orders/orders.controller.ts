@@ -6,6 +6,7 @@ import {
   Res,
   ValidationPipe,
 } from '@nestjs/common';
+import { Foundations } from '@prisma/client';
 import { Functionalities } from './dto/functionalities.dto';
 import { Platform } from './dto/platform.dto';
 import { OrdersService } from './orders.service';
@@ -19,6 +20,14 @@ export class OrdersController {
     @Body(new ValidationPipe({ transform: true })) body: Platform,
   ) {
     return this.orderService.addOrderPlatform(res, body);
+  }
+
+  @Post('foundations')
+  async addOrderFoundations(
+    @Res() res,
+    @Body(new ValidationPipe({ transform: true })) body: Foundations,
+  ) {
+    return this.orderService.addOrderFoundations(res, body);
   }
 
   @Post('addFunctionalities')
