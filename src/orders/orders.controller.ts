@@ -15,26 +15,17 @@ import { OrdersService } from './orders.service';
 export class OrdersController {
   constructor(private orderService: OrdersService) {}
   @Post('addPlatforms')
-  async addOrderPlatform(
-    @Res() res,
-    @Body(new ValidationPipe({ transform: true })) body: Platform,
-  ) {
+  async addOrderPlatform(@Res() res, @Body() body: Platform) {
     return this.orderService.addOrderPlatform(res, body);
   }
 
-  @Post('foundations')
-  async addOrderFoundations(
-    @Res() res,
-    @Body(new ValidationPipe({ transform: true })) body: Foundations,
-  ) {
+  @Post('addFoundations')
+  async addOrderFoundations(@Res() res, @Body() body: Foundations) {
     return this.orderService.addOrderFoundations(res, body);
   }
 
   @Post('addFunctionalities')
-  async addOrderFunctionalities(
-    @Res() res,
-    @Body(new ValidationPipe({ transform: true })) body: Functionalities,
-  ) {
+  async addOrderFunctionalities(@Res() res, @Body() body: Functionalities) {
     return this.orderService.addOrderFunctionalities(res, body);
   }
 }

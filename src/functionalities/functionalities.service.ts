@@ -1,40 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { ResponseService } from 'src/helper/service/response.service';
 import { PrismaService } from 'src/prisma.service';
+import { PlatformsService } from '../platforms/platforms.service';
 
 @Injectable()
 export class FunctionalitiesService {
   constructor(
     private responseService: ResponseService,
+    private platformsService: PlatformsService,
     private prisma: PrismaService,
   ) {}
 
-  async getFunctionalities(res, body) {
-    const { orderId } = body;
-    const platformIdsHourPrice = {};
-    const platforms = await this.prisma.orders.findFirst({
-      where: {
-        id: orderId,
-      },
-      select: {
-        PlatformOrders: {
-          select: {
-            Platform: {
-              select: {
-                id: true,
-                name: true,
-                subtitle: true,
-                hourPrice: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    platforms.PlatformOrders.forEach(
-      (p) => (platformIdsHourPrice[p.Platform.id] = p.Platform.hourPrice),
-    );
+  async getFunctionalities(res, orderId: string) {
+    const platformIdsHourPrice =
+      await this.platformsService.getPlatformsIdsHoursInOrder(orderId);
 
     const functionalitiesFromDB = await this.prisma.functionalities.findMany({
       select: {

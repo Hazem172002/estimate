@@ -1,39 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { ResponseService } from 'src/helper/service/response.service';
 import { PrismaService } from 'src/prisma.service';
+import { PlatformsService } from '../platforms/platforms.service';
 
 @Injectable()
 export class FoundationsService {
   constructor(
     private prisma: PrismaService,
     private responseService: ResponseService,
+    private platformsService: PlatformsService,
   ) {}
 
-  async getFoundations(res, body) {
-    const { orderId } = body;
-    const platformIdsHourPrice = {};
-    const platforms = await this.prisma.orders.findFirst({
-      where: {
-        id: orderId,
-      },
-      select: {
-        PlatformOrders: {
-          select: {
-            Platform: {
-              select: {
-                id: true,
-                name: true,
-                subtitle: true,
-                hourPrice: true,
-              },
-            },
-          },
-        },
-      },
-    });
-    platforms.PlatformOrders.forEach(
-      (p) => (platformIdsHourPrice[p.Platform.id] = p.Platform.hourPrice),
-    );
+  async getFoundations(res, orderId: string) {
+    const platformIdsHourPrice =
+      await this.platformsService.getPlatformsIdsHoursInOrder(orderId);
+
     const foundations = await this.prisma.categories.findMany({
       include: {
         Foundations: {
@@ -49,6 +30,7 @@ export class FoundationsService {
         },
       },
     });
+
     const categoriesWithFoundations = [];
 
     foundations.map((e) => {
