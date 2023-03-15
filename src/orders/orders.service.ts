@@ -235,7 +235,11 @@ export class OrdersService {
         },
       },
     });
-    return this.responseService.success(res, 'as', foundationIds);
+    return this.responseService.success(
+      res,
+      'foundations order added successfully',
+      { orderId },
+    );
   }
 
   async getOrderFinalDetails(orderId: string) {
