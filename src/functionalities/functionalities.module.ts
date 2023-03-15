@@ -9,5 +9,6 @@ import { FunctionalitiesService } from './functionalities.service';
   providers: [FunctionalitiesService, ResponseService, PrismaService],
   controllers: [FunctionalitiesController],
   imports: [PlatformsModule],
+  exports: [FunctionalitiesService],
 })
 export class FunctionalitiesModule {}

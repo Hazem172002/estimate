@@ -11,7 +11,11 @@ export class FunctionalitiesService {
     private prisma: PrismaService,
   ) {}
 
-  async getFunctionalities(res, orderId: string) {
+  async getFunctionalitiesWithPlatformHoursAndPrice(
+    res,
+    orderId: string,
+    ids: string[] = [],
+  ) {
     const platformIdsHourPrice =
       await this.platformsService.getPlatformsIdsHoursInOrder(orderId);
 
@@ -33,6 +37,7 @@ export class FunctionalitiesService {
           },
         },
       },
+      where: ids.length ? { id: { in: ids } } : {},
     });
 
     const functionalitiesWithRequirements = [];
@@ -52,6 +57,13 @@ export class FunctionalitiesService {
 
       functionalitiesWithRequirements.push({ ...functionality, hours, price });
     });
+
+    return functionalitiesWithRequirements;
+  }
+
+  async getFunctionalities(res, orderId: string) {
+    const functionalitiesWithRequirements =
+      await this.getFunctionalitiesWithPlatformHoursAndPrice(res, orderId);
 
     return this.responseService.success(
       res,

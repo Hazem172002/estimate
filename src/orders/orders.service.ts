@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ResponseService } from 'src/helper/service/response.service';
 import { PrismaService } from 'src/prisma.service';
+import { FunctionalitiesService } from '../functionalities/functionalities.service';
 import { OrderFoundations } from './dto/order-foundations.dto';
 import { OrderFunctionalities } from './dto/order-functionalities.dto';
 import { OrderPlatform } from './dto/order-platform.dto';
@@ -10,6 +11,7 @@ export class OrdersService {
   constructor(
     private prisma: PrismaService,
     private responseService: ResponseService,
+    private functionalitiesService: FunctionalitiesService,
   ) {}
 
   async addOrderPlatform(res, orderPlatforms: OrderPlatform) {
@@ -61,10 +63,11 @@ export class OrdersService {
   }
 
   async addOrderFunctionalities(res, body: OrderFunctionalities) {
-    let { orderId, functionalitiesBody } = body;
+    let { orderId, functionalitiesIDs } = body;
     const functionalitiesOrders = [];
     let hours = 0;
     let cost = 0;
+
     const order = await this.prisma.orders.findFirst({
       include: {
         FunctionalityOrders: true,
@@ -73,7 +76,6 @@ export class OrdersService {
         id: orderId,
       },
     });
-
     if (!order) {
       return this.responseService.notFound(
         res,
@@ -81,37 +83,32 @@ export class OrdersService {
       );
     }
 
-    const ids = functionalitiesBody.map((f) => f.id);
+    const functionalitiesBody =
+      await this.functionalitiesService.getFunctionalitiesWithPlatformHoursAndPrice(
+        res,
+        orderId,
+        functionalitiesIDs,
+      );
+
     order.FunctionalityOrders.forEach((fo) => {
-      if (ids.includes(fo.funcationalityId)) {
+      if (functionalitiesIDs.includes(fo.funcationalityId)) {
+        const idIndex = functionalitiesIDs.indexOf(fo.funcationalityId);
         const index = functionalitiesBody.findIndex(
           (x) => x.id === fo.funcationalityId,
         );
         functionalitiesBody.splice(index, 1);
+        functionalitiesIDs.splice(idIndex, 1);
       }
     });
 
-    const functionalitiesIds = [...functionalitiesBody.map((f) => f.id)];
-
-    const functionalities = await this.prisma.functionalities.findMany({
-      select: {
-        id: true,
-      },
-      where: {
-        id: {
-          in: functionalitiesIds,
-        },
-      },
-    });
-    if (
-      functionalitiesIds.length !== functionalities.length ||
-      !functionalitiesIds.length
-    ) {
+    if (!functionalitiesBody.length) {
       return this.responseService.notFound(
         res,
         'Bad Request, all Functionalities may be in this order or no functionalities were added',
       );
     }
+
+    console.log(functionalitiesBody);
 
     functionalitiesBody.forEach((f) => {
       hours += f.hours;
@@ -119,6 +116,7 @@ export class OrdersService {
       functionalitiesOrders.push({ funcationalityId: f.id });
     });
 
+    // Update The Order with new functionalities.
     const newOrder = await this.prisma.orders.update({
       where: {
         id: orderId,
@@ -136,7 +134,7 @@ export class OrdersService {
 
     return this.responseService.success(
       res,
-      'functionalities added successfully',
+      `Order #${orderId} has been updated successfully`,
       newOrder,
     );
   }

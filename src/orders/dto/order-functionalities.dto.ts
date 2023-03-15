@@ -3,6 +3,8 @@ import { IsNotEmpty } from 'class-validator';
 export class OrderFunctionalities {
   @IsNotEmpty()
   orderId: string;
+  // @IsNotEmpty()
+  // functionalitiesBody: (Functionalities & { hours: number; price: number })[];
   @IsNotEmpty()
-  functionalitiesBody: (Functionalities & { hours: number; price: number })[];
+  functionalitiesIDs: string[];
 }
