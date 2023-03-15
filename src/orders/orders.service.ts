@@ -188,6 +188,12 @@ export class OrdersService {
         foundationIds.splice(index, 1);
       }
     });
+    if (foundationIds.length === 0) {
+      return this.responseService.conflict(
+        res,
+        'all foundations is already in this orderId',
+      );
+    }
     order.PlatformOrders.map((e) => {
       orderPlatforms.push(e.platformId);
     });
@@ -211,7 +217,6 @@ export class OrdersService {
     foundationIds.map((e) => {
       lastFoundations.push({ foundationId: e });
     });
-    console.log(lastFoundations);
     await this.prisma.orders.update({
       where: {
         id: orderId,
