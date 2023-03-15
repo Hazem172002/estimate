@@ -13,7 +13,11 @@ export class OrdersService {
   ) {}
 
   async addOrderPlatform(res, orderPlatforms: OrderPlatform) {
+    // what if was only one platform ?
+    //send 22 or 33 or 33333 and check !
+
     const platformsIds = [...new Set(orderPlatforms.platforms)];
+    console.log(platformsIds);
 
     // Check if body not contains any platforms ids., if length === 0 , return bad request.
     if (!platformsIds.length) {
@@ -141,82 +145,29 @@ export class OrdersService {
     );
   }
 
-  async addOrderFoundations(res, body: OrderFoundations) {
-    let { orderId, foundationsBody } = body;
-    let hours = 0;
-    let cost = 0;
-    const foundationOrders = [];
-    const orders = await this.prisma.orders.findFirst({
+  async addOrderFoundations(res, body) {
+    const { orderId, foundationIds } = body;
+    console.log(typeof foundationIds);
+    const order = await this.prisma.orders.findFirst({
       where: {
         id: orderId,
       },
-      select: {
-        FoundationOrders: true,
-      },
     });
-    if (!orders) {
+    if (!order) {
       return this.responseService.notFound(
         res,
-        `Order #${orderId} is not exist`,
+        'this orderId is not in db choose platform first',
       );
     }
-
-    const ids = foundationsBody.map((f) => f.id);
-
-    orders.FoundationOrders.forEach((fo) => {
-      if (ids.includes(fo.foundationId)) {
-        let idIndex = ids.indexOf(fo.foundationId);
-        let index = foundationsBody.findIndex((f) => f.id === fo.foundationId);
-        foundationsBody.splice(index, 1);
-        ids.splice(idIndex, 1);
-      }
-    });
-
-    const foundationsIds = [...foundationsBody.map((f) => f.id)];
-
-    const foundations = await this.prisma.foundations.findMany({
+    const systemFoundations = await this.prisma.foundations.findMany({
       select: {
         id: true,
       },
-      where: {
-        id: {
-          in: foundationsIds,
-        },
-      },
     });
-
-    if (foundations.length !== foundationsIds.length || !foundations.length) {
-      return this.responseService.notFound(
-        res,
-        'Bad Request, all Foundations may be in this order or no foundations were added',
-      );
+    if (typeof foundationIds === 'string') {
+    } else {
     }
-
-    foundationsBody.forEach((f) => {
-      hours += f.hours;
-      cost += f.price;
-      foundationOrders.push({ foundationId: f.id });
-    });
-
-    const newOrder = await this.prisma.orders.update({
-      where: {
-        id: orderId,
-      },
-      data: {
-        hours: { increment: hours },
-        cost: { increment: cost },
-        FoundationOrders: {
-          createMany: {
-            data: foundationOrders,
-          },
-        },
-      },
-    });
-    return this.responseService.success(
-      res,
-      'foundations added successfully',
-      newOrder,
-    );
+    return this.responseService.success(res, 'df', systemFoundations);
   }
 
   async getOrderFinalDetails(orderId: string) {
