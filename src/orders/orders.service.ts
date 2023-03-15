@@ -108,8 +108,6 @@ export class OrdersService {
       );
     }
 
-    console.log(functionalitiesBody);
-
     functionalitiesBody.forEach((f) => {
       hours += f.hours;
       cost += f.price;
@@ -239,18 +237,6 @@ export class OrdersService {
   }
 
   async getOrderFinalDetails(orderId: string) {
-    // In this function we should return all of this:
-    /*
-    {
-      orderId,
-      finalCost,
-      finalHours,
-      # For Platforms: we should include it hours
-      # For Example:
-      android: {hours, price},
-      ios : {hours, price}
-    }
-    */
     const order = await this.prisma.orders.findFirst({
       where: {
         id: orderId,
@@ -303,6 +289,7 @@ export class OrdersService {
         return p;
       },
     );
+    console.log(orderPlatforms);
 
     const platformsDetails = {};
     orderPlatforms.forEach((p) => {
@@ -310,10 +297,10 @@ export class OrdersService {
       let hours = p.hours;
       const foundationsHours = p.PlatformsFoundations.map(
         (f) => f.hours,
-      ).reduce((acc, curr) => acc + curr);
+      ).reduce((acc, curr) => acc + curr, 0);
       const functionalitiesHours = p.PlatformsFunctionalities.map(
         (f) => f.hours,
-      ).reduce((acc, curr) => acc + curr);
+      ).reduce((acc, curr) => acc + curr, 0);
       hours += foundationsHours + functionalitiesHours;
       price += (foundationsHours + functionalitiesHours) * p.hourPrice;
       platformsDetails[p.name] = { hours, price };
