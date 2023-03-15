@@ -1,10 +1,13 @@
 import { Functionalities } from '@prisma/client';
-import { IsNotEmpty } from 'class-validator';
+import { ArrayMinSize, IsArray, IsNotEmpty, IsString } from 'class-validator';
 export class OrderFunctionalities {
   @IsNotEmpty()
+  @IsString()
   orderId: string;
-  // @IsNotEmpty()
-  // functionalitiesBody: (Functionalities & { hours: number; price: number })[];
+
   @IsNotEmpty()
+  @IsString({ each: true })
+  @IsArray()
+  @ArrayMinSize(1)
   functionalitiesIDs: string[];
 }
