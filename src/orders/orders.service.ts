@@ -139,82 +139,98 @@ export class OrdersService {
     );
   }
 
-  async addOrderFoundations(res, body: OrderFoundations) {
-    let { orderId, foundationsBody } = body;
+  async addOrderFoundations(res, body) {
+    const { orderId } = body;
+    let { foundationIds } = body;
+    foundationIds = [...new Set(foundationIds)];
+    const systemFoundationsIds = [];
+    const orderFoundationsIds = [];
+    const orderPlatforms = [];
     let hours = 0;
     let cost = 0;
-    const foundationOrders = [];
-    const orders = await this.prisma.orders.findFirst({
+    const order = await this.prisma.orders.findFirst({
       where: {
         id: orderId,
       },
-      select: {
+      include: {
         FoundationOrders: true,
-      },
-    });
-    if (!orders) {
-      return this.responseService.notFound(
-        res,
-        `Order #${orderId} is not exist`,
-      );
-    }
-
-    const ids = foundationsBody.map((f) => f.id);
-
-    orders.FoundationOrders.forEach((fo) => {
-      if (ids.includes(fo.foundationId)) {
-        let idIndex = ids.indexOf(fo.foundationId);
-        let index = foundationsBody.findIndex((f) => f.id === fo.foundationId);
-        foundationsBody.splice(index, 1);
-        ids.splice(idIndex, 1);
-      }
-    });
-
-    const foundationsIds = [...foundationsBody.map((f) => f.id)];
-
-    const foundations = await this.prisma.foundations.findMany({
-      select: {
-        id: true,
-      },
-      where: {
-        id: {
-          in: foundationsIds,
-        },
-      },
-    });
-
-    if (foundations.length !== foundationsIds.length || !foundations.length) {
-      return this.responseService.notFound(
-        res,
-        'Bad Request, all Foundations may be in this order or no foundations were added',
-      );
-    }
-
-    foundationsBody.forEach((f) => {
-      hours += f.hours;
-      cost += f.price;
-      foundationOrders.push({ foundationId: f.id });
-    });
-
-    const newOrder = await this.prisma.orders.update({
-      where: {
-        id: orderId,
-      },
-      data: {
-        hours: { increment: hours },
-        cost: { increment: cost },
-        FoundationOrders: {
-          createMany: {
-            data: foundationOrders,
+        PlatformOrders: {
+          include: {
+            Platform: true,
           },
         },
       },
     });
-    return this.responseService.success(
-      res,
-      'foundations added successfully',
-      newOrder,
+    if (!order) {
+      return this.responseService.notFound(
+        res,
+        'this orderId id not in db choose platform first',
+      );
+    }
+    const systemFoundations = await this.prisma.foundations.findMany({
+      select: {
+        id: true,
+      },
+    });
+    systemFoundations.map((e) => {
+      systemFoundationsIds.push(e.id);
+    });
+    order.FoundationOrders.map((e) => {
+      orderFoundationsIds.push(e.foundationId);
+    });
+    foundationIds.map((e, index) => {
+      if (!systemFoundationsIds.includes(e)) {
+        return this.responseService.conflict(res, 'invalid foundation id', {
+          foundationId: e,
+        });
+      }
+      if (orderFoundationsIds.includes(e)) {
+        foundationIds.splice(index, 1);
+      }
+    });
+    order.PlatformOrders.map((e) => {
+      orderPlatforms.push(e.platformId);
+    });
+    const platformFoundations = await this.prisma.platformsFoundations.findMany(
+      {
+        where: {
+          platformId: {
+            in: orderPlatforms,
+          },
+        },
+      },
     );
+    platformFoundations.map((e) => {
+      hours += e.hours;
+    });
+
+    order.PlatformOrders.map((e) => {
+      cost += e.Platform.hourPrice * hours;
+    });
+    const lastFoundations = [];
+    foundationIds.map((e) => {
+      lastFoundations.push({ foundationId: e });
+    });
+    console.log(lastFoundations);
+    await this.prisma.orders.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        hours: {
+          increment: hours,
+        },
+        cost: {
+          increment: cost,
+        },
+        FoundationOrders: {
+          createMany: {
+            data: lastFoundations,
+          },
+        },
+      },
+    });
+    return this.responseService.success(res, 'as', foundationIds);
   }
 
   async getOrderFinalDetails(orderId: string) {
