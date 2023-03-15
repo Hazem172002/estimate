@@ -97,7 +97,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"orderId\":\"7418efce-555b-4f0d-9595-813941448251\",\r\n     \"foundationsBody\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"Found-1\",\r\n                    \"subtitle\": \"Found-1\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"2\",\r\n                    \"name\": \"Found-2\",\r\n                    \"subtitle\": \"Found-2\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"5\",\r\n                    \"name\": \"Found-5\",\r\n                    \"subtitle\": \"Found-5\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"6\",\r\n                    \"name\": \"Found-6\",\r\n                    \"subtitle\": \"Found-6\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                }\r\n     ]\r\n}",
+							"raw": "{\r\n    \"orderId\":\"35e33ce3-f552-4178-afde-c6474e62f87d\",\r\n     \"foundationsBody\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"Found-1\",\r\n                    \"subtitle\": \"Found-1\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"2\",\r\n                    \"name\": \"Found-2\",\r\n                    \"subtitle\": \"Found-2\",\r\n                    \"categoryId\": \"1\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"5\",\r\n                    \"name\": \"Found-5\",\r\n                    \"subtitle\": \"Found-5\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                },\r\n                {\r\n                    \"id\": \"6\",\r\n                    \"name\": \"Found-6\",\r\n                    \"subtitle\": \"Found-6\",\r\n                    \"categoryId\": \"2\",\r\n                    \"hours\": 25,\r\n                    \"price\": 775\r\n                }\r\n     ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -235,7 +235,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"orderId\":\"7418efce-555b-4f0d-9595-813941448251\",\r\n     \"functionalitiesBody\": [\r\n        {\r\n            \"id\": \"2\",\r\n            \"name\": \"Func-2\",\r\n            \"subtitle\": \"Func-2\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 40,\r\n            \"price\": 1250\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"name\": \"Func-3\",\r\n            \"subtitle\": \"Func-3\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 15,\r\n            \"price\": 475\r\n        }\r\n     ]\r\n}",
+							"raw": "{\r\n    \"orderId\":\"35e33ce3-f552-4178-afde-c6474e62f87d\",\r\n     \"functionalitiesBody\": [\r\n        {\r\n            \"id\": \"2\",\r\n            \"name\": \"Func-2\",\r\n            \"subtitle\": \"Func-2\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 40,\r\n            \"price\": 1250\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"name\": \"Func-3\",\r\n            \"subtitle\": \"Func-3\",\r\n            \"requirements\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"REQ-1\",\r\n                    \"subtitle\": \"REQ-1\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"name\": \"REQ-3\",\r\n                    \"subtitle\": \"REQ-3\"\r\n                }\r\n            ],\r\n            \"hours\": 15,\r\n            \"price\": 475\r\n        }\r\n     ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -322,7 +322,7 @@
 							"urlencoded": [
 								{
 									"key": "orderId",
-									"value": "7418efce-555b-4f0d-9595-813941448251",
+									"value": "35e33ce3-f552-4178-afde-c6474e62f87d",
 									"type": "text"
 								}
 							]
@@ -336,7 +336,7 @@
 					},
 					"response": [
 						{
-							"name": "Final Details",
+							"name": "Submit Order And Get Final Detail",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -345,7 +345,7 @@
 									"urlencoded": [
 										{
 											"key": "orderId",
-											"value": "7418efce-555b-4f0d-9595-813941448251",
+											"value": "35e33ce3-f552-4178-afde-c6474e62f87d",
 											"type": "text"
 										}
 									]
@@ -371,15 +371,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "156"
+									"value": "170"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"9c-zTPKdyRnMvEkfAW95WPixWXa/BM\""
+									"value": "W/\"aa-/vy63idlHgmBvuuG35E18N+5qVg\""
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 14 Mar 2023 14:35:01 GMT"
+									"value": "Wed, 15 Mar 2023 09:09:31 GMT"
 								},
 								{
 									"key": "Connection",
@@ -391,7 +391,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"IOS\": {\n        \"hours\": 295,\n        \"price\": 10325\n    },\n    \"Android\": {\n        \"hours\": 360,\n        \"price\": 9000\n    },\n    \"orderId\": \"7418efce-555b-4f0d-9595-813941448251\",\n    \"finalCost\": 19325,\n    \"finalHours\": 655\n}"
+							"body": "{\n    \"platforms\": {\n        \"IOS\": {\n            \"hours\": 295,\n            \"price\": 10325\n        },\n        \"Android\": {\n            \"hours\": 360,\n            \"price\": 9000\n        }\n    },\n    \"orderId\": \"35e33ce3-f552-4178-afde-c6474e62f87d\",\n    \"finalHours\": 655,\n    \"finalCost\": 19325\n}"
 						}
 					]
 				}
@@ -559,7 +559,7 @@
 					"urlencoded": [
 						{
 							"key": "orderId",
-							"value": "cc9accf8-68d0-48f5-8870-adbab33a58ad",
+							"value": "7418efce-555b-4f0d-9595-813941448251",
 							"type": "text"
 						}
 					]
@@ -578,7 +578,73 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Get All Functionalities By Order Id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "orderId",
+									"value": "7418efce-555b-4f0d-9595-813941448251",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Functionalities}}",
+							"host": [
+								"{{Functionalities}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "587"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"24b-U5/jFkhedLsUeWtWp5K3mVj0Iss\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 15 Mar 2023 09:10:09 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"Success\",\n    \"message\": \"Functionalities\",\n    \"data\": [\n        {\n            \"id\": \"1\",\n            \"name\": \"Func-1\",\n            \"subtitle\": \"Func-1\",\n            \"requirements\": [\n                {\n                    \"id\": \"1\",\n                    \"name\": \"REQ-1\",\n                    \"subtitle\": \"REQ-1\"\n                },\n                {\n                    \"id\": \"2\",\n                    \"name\": \"REQ-2\",\n                    \"subtitle\": \"REQ-2\"\n                }\n            ],\n            \"hours\": 30,\n            \"price\": 950\n        },\n        {\n            \"id\": \"2\",\n            \"name\": \"Func-2\",\n            \"subtitle\": \"Func-2\",\n            \"requirements\": [\n                {\n                    \"id\": \"1\",\n                    \"name\": \"REQ-1\",\n                    \"subtitle\": \"REQ-1\"\n                },\n                {\n                    \"id\": \"3\",\n                    \"name\": \"REQ-3\",\n                    \"subtitle\": \"REQ-3\"\n                }\n            ],\n            \"hours\": 40,\n            \"price\": 1250\n        },\n        {\n            \"id\": \"3\",\n            \"name\": \"Func-3\",\n            \"subtitle\": \"Func-3\",\n            \"requirements\": [\n                {\n                    \"id\": \"1\",\n                    \"name\": \"REQ-1\",\n                    \"subtitle\": \"REQ-1\"\n                },\n                {\n                    \"id\": \"3\",\n                    \"name\": \"REQ-3\",\n                    \"subtitle\": \"REQ-3\"\n                }\n            ],\n            \"hours\": 15,\n            \"price\": 475\n        }\n    ]\n}"
+				}
+			]
 		}
 	]
 }

@@ -300,9 +300,11 @@ export class OrdersService {
       platformsDetails[p.name] = { hours, price };
     });
 
-    platformsDetails['orderId'] = orderId;
-    platformsDetails['finalCost'] = order.cost;
-    platformsDetails['finalHours'] = order.hours;
-    return platformsDetails;
+    return {
+      orderId,
+      finalHours: order.hours,
+      finalCost: order.cost,
+      platforms: platformsDetails,
+    };
   }
 }
