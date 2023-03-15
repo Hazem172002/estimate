@@ -1,8 +1,10 @@
 import { Foundations } from '@prisma/client';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsArray, ArrayMinSize } from 'class-validator';
 export class OrderFoundations {
   @IsNotEmpty()
   orderId: string;
   @IsNotEmpty()
-  foundationsBody: (Foundations & { hours: number; price: number })[];
+  @IsArray()
+  @ArrayMinSize(1)
+  foundationIds: string[];
 }
