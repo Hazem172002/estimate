@@ -14,7 +14,7 @@ export class OrdersController {
 
   @Post('addFoundations')
   async addOrderFoundations(@Res() res, @Body() body: OrderFoundations) {
-    return this.orderService.addOrderFoundations(res, body);
+    return this.orderService.addOrderFoundationsV2(res, body);
   }
 
   @Post('addFunctionalities')

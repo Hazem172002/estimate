@@ -11,11 +11,15 @@ export class FoundationsService {
     private platformsService: PlatformsService,
   ) {}
 
-  async getFoundations(res, orderId: string) {
+  async getFoundationsWithPlatformHoursAndPrice(
+    res,
+    orderId: string,
+    ids: string[] = [],
+  ) {
     const platformIdsHourPrice =
       await this.platformsService.getPlatformsIdsHoursInOrder(orderId);
 
-    const foundations = await this.prisma.categories.findMany({
+    const foundationsFromDB = await this.prisma.categories.findMany({
       include: {
         Foundations: {
           include: {
@@ -27,15 +31,14 @@ export class FoundationsService {
               },
             },
           },
+          where: ids.length ? { id: { in: ids } } : {},
         },
       },
     });
 
     const categoriesWithFoundations = [];
 
-    console.log({ foundations });
-
-    foundations.map((e) => {
+    foundationsFromDB.map((e) => {
       const category = { ...e, foundations: [] };
       e.Foundations.map((j) => {
         let hours = 0;
@@ -55,9 +58,15 @@ export class FoundationsService {
       categoriesWithFoundations.push(category);
     });
 
+    return categoriesWithFoundations;
+  }
+
+  async getFoundations(res, orderId: string) {
+    const categoriesWithFoundations =
+      await this.getFoundationsWithPlatformHoursAndPrice(res, orderId);
     return this.responseService.success(
       res,
-      'foundations',
+      'Foundations',
       categoriesWithFoundations,
     );
   }

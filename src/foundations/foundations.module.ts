@@ -9,5 +9,6 @@ import { FoundationsService } from './foundations.service';
   controllers: [FoundationsController],
   providers: [FoundationsService, ResponseService, PrismaService],
   imports: [PlatformsModule],
+  exports: [FoundationsService],
 })
 export class FoundationsModule {}

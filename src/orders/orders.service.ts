@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ResponseService } from 'src/helper/service/response.service';
 import { PrismaService } from 'src/prisma.service';
+import { FoundationsService } from '../foundations/foundations.service';
 import { FunctionalitiesService } from '../functionalities/functionalities.service';
 import { OrderFoundations } from './dto/order-foundations.dto';
 import { OrderFunctionalities } from './dto/order-functionalities.dto';
@@ -12,6 +13,7 @@ export class OrdersService {
     private prisma: PrismaService,
     private responseService: ResponseService,
     private functionalitiesService: FunctionalitiesService,
+    private foundationsService: FoundationsService,
   ) {}
 
   async addOrderPlatform(res, orderPlatforms: OrderPlatform) {
@@ -134,6 +136,82 @@ export class OrdersService {
       res,
       `Order #${orderId} has been updated successfully`,
       newOrder,
+    );
+  }
+
+  async addOrderFoundationsV2(res, body: OrderFoundations) {
+    let { orderId, foundationIds } = body;
+    const foundationsOrders = [];
+    let hours = 0;
+    let cost = 0;
+
+    const order = await this.prisma.orders.findFirst({
+      include: {
+        FoundationOrders: true,
+      },
+      where: {
+        id: orderId,
+      },
+    });
+
+    if (!order) {
+      return this.responseService.notFound(
+        res,
+        `Order #${orderId} is not exist`,
+      );
+    }
+
+    const foundationsBody =
+      await this.foundationsService.getFoundationsWithPlatformHoursAndPrice(
+        res,
+        orderId,
+        foundationIds,
+      );
+
+    order.FoundationOrders.forEach((fo) => {
+      if (foundationIds.includes(fo.foundationId)) {
+        const idIndex = foundationIds.indexOf(fo.foundationId);
+        const index = foundationsBody.findIndex(
+          (x) => x.id === fo.foundationId,
+        );
+        foundationsBody.splice(index, 1);
+        foundationIds.splice(idIndex, 1);
+      }
+    });
+
+    if (!foundationsBody.length) {
+      return this.responseService.notFound(
+        res,
+        'Bad Request, all Foundations may be in this order or no foundations were added',
+      );
+    }
+
+    foundationsBody.forEach((f) => {
+      hours += f.hours;
+      cost += f.price;
+      foundationsOrders.push({ foundationId: f.id });
+    });
+
+    // Update The Order with new functionalities.
+    const newOrder = await this.prisma.orders.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        hours: { increment: hours },
+        cost: { increment: cost },
+        FoundationOrders: {
+          createMany: {
+            data: foundationsOrders,
+          },
+        },
+      },
+    });
+
+    return this.responseService.success(
+      res,
+      `Order #${orderId} has been updated successfully`,
+      { newOrder, foundationsBody },
     );
   }
 
