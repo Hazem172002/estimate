@@ -145,6 +145,8 @@ export class OrdersService {
     let hours = 0;
     let cost = 0;
 
+    console.log(foundationIds);
+
     const order = await this.prisma.orders.findFirst({
       include: {
         FoundationOrders: true,
@@ -161,12 +163,15 @@ export class OrdersService {
       );
     }
 
-    const foundationsBody =
+    const foundationsBody = (
       await this.foundationsService.getFoundationsWithPlatformHoursAndPrice(
         res,
         orderId,
         foundationIds,
-      );
+      )
+    )
+      .map((f) => f.foundations)
+      .flat();
 
     order.FoundationOrders.forEach((fo) => {
       if (foundationIds.includes(fo.foundationId)) {
@@ -211,7 +216,7 @@ export class OrdersService {
     return this.responseService.success(
       res,
       `Order #${orderId} has been updated successfully`,
-      { newOrder, foundationsBody },
+      newOrder,
     );
   }
 
