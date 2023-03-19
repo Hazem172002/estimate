@@ -40,4 +40,36 @@ export class PlatformsService {
     const platforms = await this.prisma.platforms.findMany();
     return this.responseService.success(res, 'platforms', platforms);
   }
+
+  async uploadImage(res, platformId: string, image: Express.Multer.File) {
+    if (!image) {
+      return this.responseService.badRequest(
+        res,
+        'Required Field',
+        `please upload the image in image property`,
+      );
+    }
+
+    const platform = await this.prisma.platforms.update({
+      where: {
+        id: platformId,
+      },
+      data: {
+        image: image.filename,
+      },
+    });
+
+    if (!platform) {
+      return this.responseService.notFound(
+        res,
+        `Platform #${platform.id} is not found`,
+      );
+    }
+
+    return this.responseService.success(
+      res,
+      'Platform image updated Successfully ',
+      platform,
+    );
+  }
 }
