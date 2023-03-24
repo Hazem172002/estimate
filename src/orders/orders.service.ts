@@ -70,6 +70,9 @@ export class OrdersService {
     let hours = 0;
     let cost = 0;
 
+    let deletedHours = 0;
+    let deletedCost = 0;
+
     const order = await this.prisma.orders.findFirst({
       include: {
         FunctionalityOrders: true,
@@ -78,6 +81,7 @@ export class OrdersService {
         id: orderId,
       },
     });
+
     if (!order) {
       return this.responseService.notFound(
         res,
@@ -85,48 +89,78 @@ export class OrdersService {
       );
     }
 
-    const functionalitiesBody =
-      await this.functionalitiesService.getFunctionalitiesWithPlatformHoursAndPrice(
-        res,
-        orderId,
-        functionalitiesIDs,
-      );
+    const functionalitiesAlreadyInOrder = order.FunctionalityOrders.map(
+      (f) => f.funcationalityId,
+    );
+    delete order.FunctionalityOrders;
 
-    order.FunctionalityOrders.forEach((fo) => {
-      if (functionalitiesIDs.includes(fo.funcationalityId)) {
-        const idIndex = functionalitiesIDs.indexOf(fo.funcationalityId);
-        const index = functionalitiesBody.findIndex(
-          (x) => x.id === fo.funcationalityId,
-        );
-        functionalitiesBody.splice(index, 1);
-        functionalitiesIDs.splice(idIndex, 1);
-      }
-    });
+    const addedFunctionalities = functionalitiesIDs.filter(
+      (x) => !functionalitiesAlreadyInOrder.includes(x),
+    );
 
-    if (!functionalitiesBody.length) {
-      return this.responseService.notFound(
+    const deletedFunctionalities = functionalitiesAlreadyInOrder.filter(
+      (x) => !functionalitiesIDs.includes(x),
+    );
+
+    if (!addedFunctionalities.length && !deletedFunctionalities.length) {
+      return this.responseService.success(
         res,
-        'Bad Request, all Functionalities may be in this order or no functionalities were added',
+        `Order #${orderId} already has these functionalities`,
+        order,
       );
     }
 
-    functionalitiesBody.forEach((f) => {
+    const functionalitiesToAdd = addedFunctionalities.length
+      ? await this.functionalitiesService.getFunctionalitiesWithPlatformHoursAndPrice(
+          res,
+          orderId,
+          addedFunctionalities,
+        )
+      : [];
+
+    const functionalitiesToRemove = deletedFunctionalities.length
+      ? await this.functionalitiesService.getFunctionalitiesWithPlatformHoursAndPrice(
+          res,
+          orderId,
+          deletedFunctionalities,
+        )
+      : [];
+
+    if (!functionalitiesToAdd.length && !functionalitiesToRemove.length) {
+      return this.responseService.success(
+        res,
+        `Order #${orderId} nothing changed.`,
+        order,
+      );
+    }
+
+    functionalitiesToAdd.forEach((f) => {
       hours += f.hours;
       cost += f.price;
       functionalitiesOrders.push({ funcationalityId: f.id });
     });
 
+    functionalitiesToRemove.forEach((f) => {
+      deletedHours += f.hours;
+      deletedCost += f.price;
+    });
+
     // Update The Order with new functionalities.
     const newOrder = await this.prisma.orders.update({
       where: {
         id: orderId,
       },
       data: {
-        hours: { increment: hours },
-        cost: { increment: cost },
+        hours: { increment: hours - deletedHours },
+        cost: { increment: cost - deletedCost },
         FunctionalityOrders: {
           createMany: {
             data: functionalitiesOrders,
+          },
+          deleteMany: {
+            funcationalityId: {
+              in: deletedFunctionalities,
+            },
           },
         },
       },
@@ -139,13 +173,14 @@ export class OrdersService {
     );
   }
 
-  async addOrderFoundationsV2(res, body: OrderFoundations) {
+  async addOrderFoundations(res, body: OrderFoundations) {
     let { orderId, foundationIds } = body;
     const foundationsOrders = [];
     let hours = 0;
     let cost = 0;
 
-    console.log(foundationIds);
+    let deletedHours = 0;
+    let deletedCost = 0;
 
     const order = await this.prisma.orders.findFirst({
       include: {
@@ -163,39 +198,67 @@ export class OrdersService {
       );
     }
 
-    const foundationsBody = (
-      await this.foundationsService.getFoundationsWithPlatformHoursAndPrice(
-        res,
-        orderId,
-        foundationIds,
-      )
-    )
-      .map((f) => f.foundations)
-      .flat();
+    const foundationsAlreadyInOrder = order.FoundationOrders.map(
+      (f) => f.foundationId,
+    );
+    delete order.FoundationOrders;
 
-    order.FoundationOrders.forEach((fo) => {
-      if (foundationIds.includes(fo.foundationId)) {
-        const idIndex = foundationIds.indexOf(fo.foundationId);
-        const index = foundationsBody.findIndex(
-          (x) => x.id === fo.foundationId,
-        );
-        foundationsBody.splice(index, 1);
-        foundationIds.splice(idIndex, 1);
-      }
-    });
+    const addedFoundations = foundationIds.filter(
+      (x) => !foundationsAlreadyInOrder.includes(x),
+    );
 
-    if (!foundationsBody.length) {
-      return this.responseService.notFound(
+    const deletedFoundations = foundationsAlreadyInOrder.filter(
+      (x) => !foundationIds.includes(x),
+    );
+
+    if (!addedFoundations.length && !deletedFoundations.length) {
+      return this.responseService.success(
         res,
-        'Bad Request, all Foundations may be in this order or no foundations were added',
+        `Order #${orderId} already has these foundations`,
+        order,
       );
     }
 
-    foundationsBody.forEach((f) => {
-      hours += f.hours;
-      cost += f.price;
-      foundationsOrders.push({ foundationId: f.id });
-    });
+    const foundationsToAdd = addedFoundations.length
+      ? await this.foundationsService.getFoundationsWithPlatformHoursAndPrice(
+          res,
+          orderId,
+          addedFoundations,
+        )
+      : [];
+
+    const foundationsToRemove = deletedFoundations.length
+      ? await this.foundationsService.getFoundationsWithPlatformHoursAndPrice(
+          res,
+          orderId,
+          deletedFoundations,
+        )
+      : [];
+
+    if (!foundationsToAdd.length && !foundationsToRemove.length) {
+      return this.responseService.success(
+        res,
+        `Order #${orderId} nothing changed.`,
+        order,
+      );
+    }
+
+    foundationsToAdd
+      .map((a) => a.foundations)
+      .flat()
+      .forEach((f) => {
+        hours += f.hours;
+        cost += f.price;
+        foundationsOrders.push({ foundationId: f.id });
+      });
+
+    foundationsToRemove
+      .map((a) => a.foundations)
+      .flat()
+      .forEach((f) => {
+        deletedHours += f.hours;
+        deletedCost += f.price;
+      });
 
     // Update The Order with new functionalities.
     const newOrder = await this.prisma.orders.update({
@@ -203,11 +266,16 @@ export class OrdersService {
         id: orderId,
       },
       data: {
-        hours: { increment: hours },
-        cost: { increment: cost },
+        hours: { increment: hours - deletedHours },
+        cost: { increment: cost - deletedCost },
         FoundationOrders: {
           createMany: {
             data: foundationsOrders,
+          },
+          deleteMany: {
+            foundationId: {
+              in: deletedFoundations,
+            },
           },
         },
       },
@@ -218,105 +286,6 @@ export class OrdersService {
       `Order #${orderId} has been updated successfully`,
       newOrder,
     );
-  }
-
-  async addOrderFoundations(res, body) {
-    const { orderId } = body;
-    let { foundationIds } = body;
-    foundationIds = [...new Set(foundationIds)];
-    const systemFoundationsIds = [];
-    const orderFoundationsIds = [];
-    const orderPlatforms = [];
-    let hours = 0;
-    let cost = 0;
-    const order = await this.prisma.orders.findFirst({
-      where: {
-        id: orderId,
-      },
-      include: {
-        FoundationOrders: true,
-        PlatformOrders: {
-          include: {
-            Platform: true,
-          },
-        },
-      },
-    });
-    if (!order) {
-      return this.responseService.notFound(
-        res,
-        'this orderId id not in db choose platform first',
-      );
-    }
-    const systemFoundations = await this.prisma.foundations.findMany({
-      select: {
-        id: true,
-      },
-    });
-    systemFoundations.map((e) => {
-      systemFoundationsIds.push(e.id);
-    });
-    order.FoundationOrders.map((e) => {
-      orderFoundationsIds.push(e.foundationId);
-    });
-    foundationIds.map((e, index) => {
-      if (!systemFoundationsIds.includes(e)) {
-        return this.responseService.conflict(res, 'invalid foundation id', {
-          foundationId: e,
-        });
-      }
-      if (orderFoundationsIds.includes(e)) {
-        foundationIds.splice(index, 1);
-      }
-    });
-    if (foundationIds.length === 0) {
-      return this.responseService.conflict(
-        res,
-        'all foundations is already in this orderId',
-      );
-    }
-    order.PlatformOrders.map((e) => {
-      orderPlatforms.push(e.platformId);
-    });
-    const platformFoundations = await this.prisma.platformsFoundations.findMany(
-      {
-        where: {
-          platformId: {
-            in: orderPlatforms,
-          },
-        },
-      },
-    );
-    platformFoundations.map((e) => {
-      hours += e.hours;
-    });
-
-    order.PlatformOrders.map((e) => {
-      cost += e.Platform.hourPrice * hours;
-    });
-    const lastFoundations = [];
-    foundationIds.map((e) => {
-      lastFoundations.push({ foundationId: e });
-    });
-    await this.prisma.orders.update({
-      where: {
-        id: orderId,
-      },
-      data: {
-        hours: {
-          increment: hours,
-        },
-        cost: {
-          increment: cost,
-        },
-        FoundationOrders: {
-          createMany: {
-            data: lastFoundations,
-          },
-        },
-      },
-    });
-    return this.responseService.success(res, 'as', foundationIds);
   }
 
   async getOrderFinalDetails(orderId: string) {
@@ -372,8 +341,6 @@ export class OrdersService {
         return p;
       },
     );
-    console.log(orderPlatforms);
-
     const platformsDetails = {};
     orderPlatforms.forEach((p) => {
       let price = p.hourPrice * p.hours;

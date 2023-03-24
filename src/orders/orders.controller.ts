@@ -14,7 +14,7 @@ export class OrdersController {
 
   @Post('addFoundations')
   async addOrderFoundations(@Res() res, @Body() body: OrderFoundations) {
-    return this.orderService.addOrderFoundationsV2(res, body);
+    return this.orderService.addOrderFoundations(res, body);
   }
 
   @Post('addFunctionalities')
@@ -25,7 +25,7 @@ export class OrdersController {
     return this.orderService.addOrderFunctionalities(res, body);
   }
 
-  @Get('orderDetails')
+  @Post('orderDetails')
   async getOrderDetails(@Body('orderId') orderId: string) {
     return this.orderService.getOrderFinalDetails(orderId);
   }

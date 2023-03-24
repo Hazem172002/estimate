@@ -62,6 +62,18 @@ export class FunctionalitiesService {
   }
 
   async getFunctionalities(res, orderId: string) {
+    const order = await this.prisma.orders.findFirst({
+      where: {
+        id: orderId,
+      },
+    });
+
+    if (!order) {
+      return this.responseService.notFound(
+        res,
+        `Order #${orderId} is not exist`,
+      );
+    }
     const functionalitiesWithRequirements =
       await this.getFunctionalitiesWithPlatformHoursAndPrice(res, orderId);
 
