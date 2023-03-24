@@ -341,7 +341,7 @@ export class OrdersService {
         return p;
       },
     );
-    const platformsDetails = {};
+    const teamMembers = [];
     orderPlatforms.forEach((p) => {
       let price = p.hourPrice * p.hours;
       let hours = p.hours;
@@ -353,14 +353,14 @@ export class OrdersService {
       ).reduce((acc, curr) => acc + curr, 0);
       hours += foundationsHours + functionalitiesHours;
       price += (foundationsHours + functionalitiesHours) * p.hourPrice;
-      platformsDetails[p.name] = { hours, price };
+      teamMembers.push({ developer: p.name, hours, price });
     });
 
     return {
       orderId,
       finalHours: order.hours,
       finalCost: order.cost,
-      platforms: platformsDetails,
+      teamMembers,
     };
   }
 }
